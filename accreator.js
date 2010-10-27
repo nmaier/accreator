@@ -34,12 +34,23 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
- 
+
 const BESPIN_OPTIONS = { "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true };
 
 /* Helpers */
 function $(id) document.getElementById(id);
 function $$(query) document.querySelector(query);
+
+if (console) {
+  function log() {
+    if (console) {
+      console.log(Array.map(arguments, function(e) e.toString()).join('\n'))
+    }
+  }
+}
+else {
+  function log() {}
+}
 
 /* bookkeeping */
 let plugin = {
@@ -51,16 +62,26 @@ let plugin = {
   src: null
 };
 let _toToPlugin = null;
-  
-function fromPlugin() {
-  let o = JSON.parse(plugin.src.value);
+
+/**
+ * Update the fields from a the plugin source
+ */
+function fromPlugin(value) {
+  let o = JSON.parse(value || plugin.src.value);
   plugin.ns.value = o.ns;
   plugin.prefix.value = o.prefix;
   plugin.match.value = o.match;
   plugin.resolve.value = o.resolve || '';
   plugin.process.value = o.process || '';
+
+  for each (let e in [plugin.resolve, plugin.process]) {
+    e.setLineNumber(0);
+  }
 }
 
+/**
+ * Update the plugin source from the contents of the fields
+ */
 function toPlugin() {
   let o = {
     type: 'sandbox',
@@ -75,14 +96,48 @@ function toPlugin() {
     o.process = plugin.process.value;
   }
   plugin.src.value = JSON.stringify(o, null, 2);
+  plugin.src.setLineNumber(0);
+}
+
+function onDrag(event) {
+  event.dataTransfer.effectAllowed = 'copyMove';
+  event.dataTransfer.dropEffect = 'copy';
+  event.preventDefault();
+}
+function onDrop(event) {
+  event.preventDefault();
+  if (!event.dataTransfer
+    || !event.dataTransfer.files
+    || event.dataTransfer.files.length != 1
+  ) {
+    log("no or too many files in dnd");
+    return;
+  }
+  let file = event.dataTransfer.files[0];
+  log("dropped", file.name, file.fileName, file.type);
+  if (!/\.json$/i.test(event.dataTransfer.files[0].fileName)
+  ) {
+    log("not a json file");
+    return;
+  }
+
+  // always prevent default, else browser might load the json file
+  // if it fails to parse
+  event.preventDefault();
+
+  fromPlugin(event.dataTransfer.files[0].getAsText('utf-8'));
 }
 
 addEventListener('load', function() {
   removeEventListener('load', arguments.callee, true);
-  
+
+  log('load');
+
+  // init bespin
   let console = bespin.tiki.require('bespin:console').console;
   let Range = bespin.tiki.require('rangeutils:utils/range');
-  
+
+  // Set up bookkeeping and bespin
   ['ns', 'prefix', 'match'].forEach(function(e) plugin[e] = $(e));
   for each (let i in ['resolve', 'process', 'src']) {
     let e = $(i);
@@ -100,5 +155,11 @@ addEventListener('load', function() {
         });
       }
     });
+  }
+
+  with (document.documentElement) {
+    addEventListener('dragenter', onDrag, true);
+    addEventListener('dragover', onDrag, true);
+    addEventListener('drop', onDrop, true);
   }
 }, true);
