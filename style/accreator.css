@@ -1,3 +1,7 @@
+body, input {
+  color: white;
+  background: black;
+}
 label {
   display: block;
   min-width: 33%;
@@ -10,9 +14,9 @@ textarea,
 .bespin {
   display: block;
   width: 100%;
-  height: 12em;    
+  height: 20em;    
 }
 
-*[title] {
+*[error] {
   background: transparent url(error.png) no-repeat right center;
 }

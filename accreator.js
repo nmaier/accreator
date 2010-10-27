@@ -76,6 +76,7 @@ function fromPlugin(value) {
     plugin.process.value = o.process || '';
 
     for each (let e in [plugin.resolve, plugin.process]) {
+      plugin.envresolve.dimensionsChanged();
       e.setLineNumber(0);
     }
   }
@@ -95,22 +96,21 @@ function toPlugin() {
     for each (let e in [plugin.prefix, plugin.ns, plugin.match]) {
       if (!e.value) {
         let msg = e.id + " cannot be blank";
-        e.setAttribute('title', msg);
+        e.setAttribute('error', true);
         throw new Error(msg);
       }
-      e.removeAttribute('title');
+      e.removeAttribute('error');
     }
     try {
       log(new RegExp(plugin.match.value));
-      plugin.match.removeAttribute('title');
+      plugin.match.removeAttribute('error');
     }
     catch (ex) {
-      plugin.match.setAttribute('title', 'Not a valid regular expression');
+      plugin.match.setAttribute('error', true);
       throw new Error("Invalid regular expression: " + ex.message);
     }
     
     if (!plugin.resolve.value && !plugin.process.value) {
-      $$('.bespin').setAttribute('title', 'Either resolve or process or both must be implemented');
       throw new Error('Either resolve or process or both must be implemented');
     }
   }
@@ -205,6 +205,13 @@ addEventListener('load', function() {
   let console = bespin.tiki.require('bespin:console').console;
   let Range = bespin.tiki.require('rangeutils:utils/range');
 
+  jQuery('#tabs').tabs();
+  jQuery('#tabs').bind('tabsshow', function(event, ui) {
+    plugin.envresolve.dimensionsChanged();
+    plugin.envprocess.dimensionsChanged();
+    log(ui.panel.id);
+  });
+  
   // Set up bookkeeping and bespin
   for each (let i in ['ns', 'prefix', 'match']) {
     plugin[i] = $(i);
@@ -215,12 +222,13 @@ addEventListener('load', function() {
     let e = $(i);
     bespin.useBespin(e, BESPIN_OPTIONS).then(function (env) {
       plugin[e.id] = env.editor;
+      plugin['env' + e.id] = env;
       if (e.id != 'src') {
         env.editor.textChanged.add(onChange);
       }
     });
   }
-
+  
   with (document.documentElement) {
     addEventListener('dragenter', onDrag, true);
     addEventListener('dragstart', onDragStart, true);

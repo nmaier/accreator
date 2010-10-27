@@ -42,22 +42,31 @@
     <link id="bespin_base" href="bespin">
     <link rel="stylesheet" type="text/css" href="jquery/jquery-ui-1.8.5.custom.css">    
     <link rel="stylesheet" type="text/css" href="style/accreator.css">
-    <script type="text/javascript" src="bespin/BespinEmbedded.js"></script>
     <script type="text/javascript" src="jquery/jquery-1.4.3.min.js"></script>
     <script type="text/javascript" src="jquery/jquery-ui-1.8.5.custom.min.js"></script>
+    <script type="text/javascript">$.noConflict();</script>
+    <script type="text/javascript" src="bespin/BespinEmbedded.js"></script>
     <script type="text/javascript;version=1.8" src="accreator.js"></script>
   </head>
   <body draggable="true">
-    <p><label for="ns">Namespace: </label><input id="ns" type="text"></p>
-    <p><label for="prefix">Prefix: </label><input id="prefix" type="text"></p>
-    <p><label for="match">Match: </label><input id="match" type="text"></p>
-    <p><label for="resolve">Resolve: </label></p>
-    <textarea id="resolve" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
-    <p><label for="process">Process: </label></p>
-    <textarea id="process" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
-    <hr>
-    <p><label for="plugin">Plugin: </label></p>
-    <textarea id="src" data-bespinoptions='{ "settings": { "tabstop": 4 }, "syntax": "js", "stealFocus": true }'></textarea>
-    <p><button onclick="fromPlugin()">From Source</button></p>
+    <div id="tabs">
+      <ul>
+        <li><a href="#tab-props">Properties</a></li>
+        <li><a href="#tab-resolve">resolve()</a></li>
+        <li><a href="#tab-process">process()</a></li>
+      </ul>
+      <div id="tab-props">
+        <p><label for="ns">Namespace: </label><input id="ns" type="text"></p>
+        <p><label for="prefix">Prefix: </label><input id="prefix" type="text"></p>
+        <p><label for="match">Match: </label><input id="match" type="text"></p>
+      </div>
+      <div id="tab-resolve">
+        <textarea id="resolve" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
+      </div>
+      <div id="tab-process">
+        <textarea id="process" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
+      </div>
+    </div>
+    <div><textarea id="src" data-bespinoptions='{ "settings": { "tabstop": 4 }, "syntax": "js", "stealFocus": true }'></textarea></div>
   </body>
 </html>
