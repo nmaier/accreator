@@ -49,40 +49,46 @@
     <script type="text/javascript;version=1.8" src="accreator.js"></script>
   </head>
   <body draggable="true">
-    <div id="tabs">
-      <ul>
-        <li><a href="#tab-props">Properties</a></li>
-        <li><a href="#tab-resolve">resolve()</a></li>
-        <li><a href="#tab-process">process()</a></li>
-        <li><a href="#tab-result">Plugin source</a></li>
-      </ul>
-      <div id="tab-props">
-        <table>
-        <tr>
-          <th><label for="ns">Namespace</label></th>
-          <td><input id="ns" type="text"></td>
-        </tr>
-        <tr>
-          <th><label for="author">Author</label></th>
-          <td><input id="author" type="text"></td>
-        </tr>        
-        <tr>
-          <th><label for="prefix">Prefix</label></th>
-          <td><input id="prefix" type="text"></td>
-        </tr>
-        <tr>
-          <th><label for="match">Match</label></th>
-          <td><input id="match" type="text"></td>
-        </tr>
-        </table>
+    <article>
+      <div id="tabs">
+        <ul>
+          <li><a href="#tab-props">Properties</a></li>
+          <li><a href="#tab-resolve">resolve()</a></li>
+          <li><a href="#tab-process">process()</a></li>
+          <li><a href="#tab-result">Plugin source</a></li>
+        </ul>
+        <div id="tab-props">
+          <table>
+          <tr>
+            <th><label for="ns">Namespace</label></th>
+            <td><input id="ns" type="text"></td>
+          </tr>
+          <tr>
+            <th><label for="author">Author</label></th>
+            <td><input id="author" type="text"></td>
+          </tr>        
+          <tr>
+            <th><label for="prefix">Prefix</label></th>
+            <td><input id="prefix" type="text"></td>
+          </tr>
+          <tr>
+            <th><label for="match">Match</label></th>
+            <td><input id="match" type="text"></td>
+          </tr>
+          </table>
+        </div>
+        <div id="tab-resolve">
+          <textarea id="resolve" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
+        </div>
+        <div id="tab-process">
+          <textarea id="process" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
+        </div>
+        <div id="tab-result"><textarea id="src" data-bespinoptions='{ "settings": { "tabstop": 4 }, "syntax": "js", "stealFocus": true }'></textarea></div>
       </div>
-      <div id="tab-resolve">
-        <textarea id="resolve" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
-      </div>
-      <div id="tab-process">
-        <textarea id="process" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
-      </div>
-      <div id="tab-result"><textarea id="src" data-bespinoptions='{ "settings": { "tabstop": 4 }, "syntax": "js", "stealFocus": true }'></textarea></div>
-    </div>
+    </article>
+    <footer>
+      <div>© 2010 Nils Maier - MPL 1.1/GPL 2.0/LGPL 2.0</div>
+      <div>Visit @<a href="https://github.com/nmaier/accreator">Github</a></div>
+    </footer>
   </body>
 </html>

@@ -1,7 +1,17 @@
 body, input {
   color: white;
   background: black;
+  font-family: sans-serif;
 }
+footer {
+  display: block;
+  font-size: small;
+  text-align: right;
+  padding-top: 1ex;
+  margin-top: 1em;
+  border-top: 1px solid gray;
+}
+
 table {
   width: 100%;
   border: 0;
