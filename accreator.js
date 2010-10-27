@@ -73,7 +73,7 @@ function fromPlugin(value) {
   try {
     let o = JSON.parse(value || plugin.src.value);
     plugin.ns.value = o.ns;
-    plugin.prefix.value = o.author || '';
+    plugin.author.value = o.author || '';
     plugin.prefix.value = o.prefix;
     plugin.match.value = o.match;
     plugin.resolve.value = o.resolve || '';
