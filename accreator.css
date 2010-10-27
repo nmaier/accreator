@@ -1,0 +1,13 @@
+label {
+  display: block;
+  min-width: 33%;
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+.bespin {
+  width: 100%;
+  height: 12em;    
+}
