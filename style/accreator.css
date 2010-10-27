@@ -46,3 +46,7 @@ a, a:visited {
   display: inline-block;
   width: 2em;
 }
+
+.left {
+  float: left;
+}
