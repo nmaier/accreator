@@ -75,9 +75,10 @@ function fromPlugin(value) {
     plugin.resolve.value = o.resolve || '';
     plugin.process.value = o.process || '';
 
+    plugin.envresolve.dimensionsChanged();
+    plugin.envprocess.dimensionsChanged();
     for each (let e in [plugin.resolve, plugin.process]) {
-      plugin.envresolve.dimensionsChanged();
-      e.setLineNumber(0);
+      e.setLineNumber(1);
     }
   }
   catch (ex) {
@@ -132,7 +133,8 @@ function toPlugin() {
     o.process = plugin.process.value;
   }
   plugin.src.value = JSON.stringify(o, null, 2);
-  plugin.src.setLineNumber(0);
+  plugin.envsrc.dimensionsChanged();
+  plugin.src.setLineNumber(1);
 }
 
 function onDrag(event) {
@@ -209,6 +211,7 @@ addEventListener('load', function() {
   jQuery('#tabs').bind('tabsshow', function(event, ui) {
     plugin.envresolve.dimensionsChanged();
     plugin.envprocess.dimensionsChanged();
+    plugin.envsrc.dimensionsChanged();
     log(ui.panel.id);
   });
   

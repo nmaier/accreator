@@ -54,6 +54,7 @@
         <li><a href="#tab-props">Properties</a></li>
         <li><a href="#tab-resolve">resolve()</a></li>
         <li><a href="#tab-process">process()</a></li>
+        <li><a href="#tab-result">Plugin source</a></li>
       </ul>
       <div id="tab-props">
         <table>
@@ -62,11 +63,12 @@
           <td><input id="ns" type="text"></td>
         </tr>
         <tr>
-          <th><label for="prefix">Prefix: </label></th>
+          <th><label for="prefix">Prefix</label></th>
           <td><input id="prefix" type="text">
-        </td></tr>
+        </td>
+        </tr>
         <tr>
-          <th><label for="match">Match: </label></th>
+          <th><label for="match">Match</label></th>
           <td><input id="match" type="text"></td>
         </tr>
         </table>
@@ -77,7 +79,7 @@
       <div id="tab-process">
         <textarea id="process" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
       </div>
+      <div id="tab-result"><textarea id="src" data-bespinoptions='{ "settings": { "tabstop": 4 }, "syntax": "js", "stealFocus": true }'></textarea></div>
     </div>
-    <div><textarea id="src" data-bespinoptions='{ "settings": { "tabstop": 4 }, "syntax": "js", "stealFocus": true }'></textarea></div>
   </body>
 </html>

@@ -17,9 +17,11 @@ textarea,
 .bespin {
   display: block;
   width: 100%;
-  height: 20em;    
+  height: 20em;
+  padding: 0;
+  margin: 0;
 }
 
 *[error] {
-  background: transparent url(error.png) no-repeat right center;
+  background: url(error.png) no-repeat right center;
 }
