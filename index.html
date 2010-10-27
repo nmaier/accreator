@@ -6,59 +6,7 @@
     <link id="bespin_base" href="bespin">
     <link rel="stylesheet" type="text/css" href="accreator.css">
     <script type="text/javascript" src="bespin/BespinEmbedded.js"></script>        
-    <script type="text/javascript;version=1.8">
-    const BESPIN_OPTIONS = { "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true };
-    function $(id) document.getElementById(id);
-    function $$(query) document.querySelector(query);
-    
-    let plugin = {
-      ns: null,
-      prefix: null,
-      match: null,
-      resolve: null,
-      process: null,
-      src: null
-      };
-    function fromPlugin() {
-      alert(plugin.src.value);
-      let o = JSON.parse(plugin.src.value);
-      plugin.ns.value = o.ns;
-      plugin.prefix.value = o.prefix;
-      plugin.match.value = o.match;
-      plugin.resolve.value = o.resolve || '';
-      plugin.process.value = o.process || '';
-    }
-    
-    function toPlugin() {
-      let o = {
-        type: 'sandbox',
-        debug: true,
-        ns: ns.value,
-        prefix: prefix.value,
-        match: match.value
-      }
-      if (resolve.value) {
-        o.resolve = resolve.value;
-      }
-      if (process.value) {
-        o.process = process.value;
-      }
-      plugin.value = JSON.stringify(o);
-    }
-    
-    addEventListener('load', function() {
-      removeEventListener('load', arguments.callee, true);
-
-      ['ns', 'prefix', 'match'].forEach(function(e) plugin[e] = $(e));
-      for each (let i in ['resolve', 'process', 'src']) {
-        let e = $(i);
-        bespin.useBespin(e, BESPIN_OPTIONS).then(function (env) {
-          env.editor.tabSt
-          plugin[e.id] = env.editor;
-        });
-      }
-    }, true);
-    </script>
+    <script type="text/javascript;version=1.8" src="accreator.js"></script>
   </head>
   <body>
     <p><label for="ns">Namespace: </label><input id="ns" type="text"></p>
