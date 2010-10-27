@@ -105,7 +105,6 @@ function onDrag(event) {
   event.preventDefault();
 }
 function onDrop(event) {
-  event.preventDefault();
   if (!event.dataTransfer) {
     return;
   }
