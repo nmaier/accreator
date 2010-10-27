@@ -146,6 +146,21 @@ function onDragStart(event) {
   dt.setData('text/plain', plugin.src.value);
   dt.setData('application/json', plugin.src.value);
 }
+
+/**
+ * changed handler updating the plugin source
+ */
+function onChange() {
+  if (_toToPlugin) {
+    return;
+  }
+  _toToPlugin = setTimeout(function() {
+    _toToPlugin = null;
+    toPlugin();
+  }, 250);
+}
+
+// load event handling
 addEventListener('load', function() {
   removeEventListener('load', arguments.callee, true);
 
@@ -156,21 +171,17 @@ addEventListener('load', function() {
   let Range = bespin.tiki.require('rangeutils:utils/range');
 
   // Set up bookkeeping and bespin
-  ['ns', 'prefix', 'match'].forEach(function(e) plugin[e] = $(e));
+  for each (let i in ['ns', 'prefix', 'match']) {
+    plugin[i] = $(i);
+    plugin[i].addEventListener('change', onChange, true);
+    plugin[i].addEventListener('keypress', onChange, true);
+  }
   for each (let i in ['resolve', 'process', 'src']) {
     let e = $(i);
     bespin.useBespin(e, BESPIN_OPTIONS).then(function (env) {
       plugin[e.id] = env.editor;
       if (e.id != 'src') {
-        env.editor.textChanged.add(function() {
-          if (_toToPlugin) {
-            return;
-          }
-          _toToPlugin = setTimeout(function() {
-            _toToPlugin = null;
-            toPlugin();
-          }, 250);
-        });
+        env.editor.textChanged.add(onChange);
       }
     });
   }
