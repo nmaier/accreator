@@ -43,7 +43,7 @@ DRAG_IMAGE.src = 'style/plugin.png';
 function $(id) document.getElementById(id);
 function $$(query) document.querySelector(query);
 
-if (console) {
+if ('console' in this) {
   function log() {
     if (console) {
       console.log(Array.map(arguments, function(e) typeof(e) == 'object' ? e.toSource() : e.toString()).join('\n'))
