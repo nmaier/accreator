@@ -87,7 +87,9 @@ function fromPlugin(value) {
   }
   catch (ex) {
     log("fromPlugin", ex);
-    alert("Failed to load plugin");
+    if (value) {
+      alert("Failed to load plugin");
+    }
   }
 }
 
