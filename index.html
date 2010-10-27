@@ -56,9 +56,20 @@
         <li><a href="#tab-process">process()</a></li>
       </ul>
       <div id="tab-props">
-        <p><label for="ns">Namespace: </label><input id="ns" type="text"></p>
-        <p><label for="prefix">Prefix: </label><input id="prefix" type="text"></p>
-        <p><label for="match">Match: </label><input id="match" type="text"></p>
+        <table>
+        <tr>
+          <th><label for="ns">Namespace</label></th>
+          <td><input id="ns" type="text"></td>
+        </tr>
+        <tr>
+          <th><label for="prefix">Prefix: </label></th>
+          <td><input id="prefix" type="text">
+        </td></tr>
+        <tr>
+          <th><label for="match">Match: </label></th>
+          <td><input id="match" type="text"></td>
+        </tr>
+        </table>
       </div>
       <div id="tab-resolve">
         <textarea id="resolve" data-bespinoptions='{ "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true }'></textarea>
