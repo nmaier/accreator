@@ -67,15 +67,21 @@ let _toToPlugin = null;
  * Update the fields from a the plugin source
  */
 function fromPlugin(value) {
-  let o = JSON.parse(value || plugin.src.value);
-  plugin.ns.value = o.ns;
-  plugin.prefix.value = o.prefix;
-  plugin.match.value = o.match;
-  plugin.resolve.value = o.resolve || '';
-  plugin.process.value = o.process || '';
+  try {
+    let o = JSON.parse(value || plugin.src.value);
+    plugin.ns.value = o.ns;
+    plugin.prefix.value = o.prefix;
+    plugin.match.value = o.match;
+    plugin.resolve.value = o.resolve || '';
+    plugin.process.value = o.process || '';
 
-  for each (let e in [plugin.resolve, plugin.process]) {
-    e.setLineNumber(0);
+    for each (let e in [plugin.resolve, plugin.process]) {
+      e.setLineNumber(0);
+    }
+  }
+  catch (ex) {
+    log("fromPlugin", ex);
+    alert("Failed to load plugin");
   }
 }
 
