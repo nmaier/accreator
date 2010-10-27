@@ -36,6 +36,8 @@
  * ***** END LICENSE BLOCK ***** */
 
 const BESPIN_OPTIONS = { "settings": { "tabstop": 2 }, "syntax": "js", "stealFocus": true };
+const DRAG_IMAGE = new Image();
+DRAG_IMAGE.src = 'style/plugin.png';
 
 /* Helpers */
 function $(id) document.getElementById(id);
@@ -183,6 +185,7 @@ function onDragStart(event) {
   let dt = event.dataTransfer;
   dt.effectsAllowed = 'copy';
   dt.dropEffect = 'copy';
+  dt.setDragImage(DRAG_IMAGE, 0, 0);
   dt.setData('text/plain', plugin.src.value);
   dt.setData('application/json', plugin.src.value);
 }
