@@ -62,7 +62,11 @@ let plugin = {
   match: null,
   resolve: null,
   process: null,
-  src: null
+  src: null,
+  generateName: null,
+  static: null,
+  omitReferrer: null,
+  useOriginName: null,
 };
 let _toToPlugin = null;
 
@@ -78,6 +82,10 @@ function fromPlugin(value) {
     plugin.match.value = o.match;
     plugin.resolve.value = o.resolve || '';
     plugin.process.value = o.process || '';
+    plugin.omitReferrer.value = o.generateName || '';
+    plugin.static.checked = !!o.static;
+    plugin.omitReferrer.checked = !!o.omitReferrer;
+    plugin.useOriginName.checked = !!o.useOriginName;
 
     plugin.envresolve.dimensionsChanged();
     plugin.envprocess.dimensionsChanged();
@@ -131,13 +139,19 @@ function toPlugin() {
     ns: plugin.ns.value,
     author: plugin.author.value,
     prefix: plugin.prefix.value,
-    match: plugin.match.value
-  }
+    match: plugin.match.value,
+    static: plugin.static.checked,
+    omitReferrer: plugin.omitReferrer.checked,
+    useOriginName: plugin.useOriginName.checked
+  };
   if (plugin.resolve.value) {
     o.resolve = plugin.resolve.value;
   }
   if (plugin.process.value) {
     o.process = plugin.process.value;
+  }
+  if (plugin.generateName.value) {
+    o.generateName = plugin.generateName.value;
   }
   plugin.src.value = JSON.stringify(o, null, 2);
   plugin.envsrc.dimensionsChanged();
@@ -224,7 +238,7 @@ addEventListener('load', function() {
   });
   
   // Set up bookkeeping and bespin
-  for each (let i in ['ns', 'author', 'prefix', 'match']) {
+  for each (let i in ['ns', 'author', 'prefix', 'match', 'generateName', 'omitReferrer', 'useOriginName', 'static']) {
     plugin[i] = $(i);
     plugin[i].addEventListener('change', onChange, true);
     plugin[i].addEventListener('keypress', onChange, true);

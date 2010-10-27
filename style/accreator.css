@@ -37,6 +37,6 @@ textarea,
   margin: 0;
 }
 
-*[error] {
-  background: url(error.png) no-repeat right center;
+a, a:visited {
+  color: gray;
 }

@@ -38,9 +38,9 @@
 <html>
   <head>
     <title>AntiContainer Creator</title>
-    
+
     <link id="bespin_base" href="bespin">
-    <link rel="stylesheet" type="text/css" href="jquery/jquery-ui-1.8.5.custom.css">    
+    <link rel="stylesheet" type="text/css" href="jquery/jquery-ui-1.8.5.custom.css">
     <link rel="stylesheet" type="text/css" href="style/accreator.css">
     <script type="text/javascript" src="jquery/jquery-1.4.3.min.js"></script>
     <script type="text/javascript" src="jquery/jquery-ui-1.8.5.custom.min.js"></script>
@@ -74,7 +74,7 @@
           <tr>
             <th><label for="author">Author</label></th>
             <td><input id="author" type="text"></td>
-          </tr>        
+          </tr>
           <tr>
             <th><label for="prefix">Prefix</label></th>
             <td><input id="prefix" type="text"></td>
@@ -82,6 +82,17 @@
           <tr>
             <th><label for="match">Match</label></th>
             <td><input id="match" type="text"></td>
+          </tr>
+          <tr>
+            <th><label for="generateName" title="File extension or blank">Generate Name</label></th>
+            <td><input id="generateName" type="text"></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <input id="static" type="checkbox" title> <label for="static">The resolved destination does not change (Static)</label>
+              <input id="useOriginName" type="checkbox"> <label for="useOriginName">Use origin name (from origin URL)</label>
+              <input id="omitReferrer" type="checkbox"> <label for="omitReferrer">Omit referrer</label>
+            </td>
           </tr>
           </table>
         </div>
