@@ -3,6 +3,11 @@ body, input {
   background: black;
   font-family: sans-serif;
 }
+
+header {
+  display: block;
+  background: transparent url(dta.png) no-repeat right center;
+}
 footer {
   display: block;
   font-size: small;
