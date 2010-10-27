@@ -50,9 +50,9 @@ let plugin = {
   process: null,
   src: null
 };
+let _toToPlugin = null;
   
 function fromPlugin() {
-  alert(plugin.src.value);
   let o = JSON.parse(plugin.src.value);
   plugin.ns.value = o.ns;
   plugin.prefix.value = o.prefix;
@@ -64,29 +64,41 @@ function fromPlugin() {
 function toPlugin() {
   let o = {
     type: 'sandbox',
-    debug: true,
-    ns: ns.value,
-    prefix: prefix.value,
-    match: match.value
+    ns: plugin.ns.value,
+    prefix: plugin.prefix.value,
+    match: plugin.match.value
   }
-  if (resolve.value) {
-    o.resolve = resolve.value;
+  if (plugin.resolve.value) {
+    o.resolve = plugin.resolve.value;
   }
-  if (process.value) {
-    o.process = process.value;
+  if (plugin.process.value) {
+    o.process = plugin.process.value;
   }
-  plugin.value = JSON.stringify(o);
+  plugin.src.value = JSON.stringify(o, null, 2);
 }
 
 addEventListener('load', function() {
   removeEventListener('load', arguments.callee, true);
-
+  
+  let console = bespin.tiki.require('bespin:console').console;
+  let Range = bespin.tiki.require('rangeutils:utils/range');
+  
   ['ns', 'prefix', 'match'].forEach(function(e) plugin[e] = $(e));
   for each (let i in ['resolve', 'process', 'src']) {
     let e = $(i);
     bespin.useBespin(e, BESPIN_OPTIONS).then(function (env) {
-      env.editor.tabSt
       plugin[e.id] = env.editor;
+      if (e.id != 'src') {
+        env.editor.textChanged.add(function() {
+          if (_toToPlugin) {
+            return;
+          }
+          _toToPlugin = setTimeout(function() {
+            _toToPlugin = null;
+            toPlugin();
+          }, 250);
+        });
+      }
     });
   }
 }, true);
