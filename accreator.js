@@ -55,6 +55,7 @@ else {
 /* bookkeeping */
 let plugin = {
   ns: null,
+  author: null,
   prefix: null,
   match: null,
   resolve: null,
@@ -70,6 +71,7 @@ function fromPlugin(value) {
   try {
     let o = JSON.parse(value || plugin.src.value);
     plugin.ns.value = o.ns;
+    plugin.prefix.value = o.author || '';
     plugin.prefix.value = o.prefix;
     plugin.match.value = o.match;
     plugin.resolve.value = o.resolve || '';
@@ -94,7 +96,7 @@ function toPlugin() {
   try {
     // validate stuff
     
-    for each (let e in [plugin.prefix, plugin.ns, plugin.match]) {
+    for each (let e in [plugin.ns, plugin.author, plugin.prefix, plugin.match]) {
       if (!e.value) {
         let msg = e.id + " cannot be blank";
         e.setAttribute('error', true);
@@ -123,6 +125,7 @@ function toPlugin() {
   let o = {
     type: 'sandbox',
     ns: plugin.ns.value,
+    author: plugin.author.value,
     prefix: plugin.prefix.value,
     match: plugin.match.value
   }
@@ -216,7 +219,7 @@ addEventListener('load', function() {
   });
   
   // Set up bookkeeping and bespin
-  for each (let i in ['ns', 'prefix', 'match']) {
+  for each (let i in ['ns', 'author', 'prefix', 'match']) {
     plugin[i] = $(i);
     plugin[i].addEventListener('change', onChange, true);
     plugin[i].addEventListener('keypress', onChange, true);
@@ -229,6 +232,10 @@ addEventListener('load', function() {
       if (e.id != 'src') {
         env.editor.textChanged.add(onChange);
       }
+      try {
+        toPlugin();
+      }
+      catch (ex) {}
     });
   }
   
