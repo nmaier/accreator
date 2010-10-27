@@ -89,6 +89,36 @@ function fromPlugin(value) {
  * Update the plugin source from the contents of the fields
  */
 function toPlugin() {
+  try {
+    // validate stuff
+    
+    for each (let e in [plugin.prefix, plugin.ns, plugin.match]) {
+      if (!e.value) {
+        let msg = e.id + " cannot be blank";
+        e.setAttribute('title', msg);
+        throw new Error(msg);
+      }
+      e.removeAttribute('title');
+    }
+    try {
+      log(new RegExp(plugin.match.value));
+      plugin.match.removeAttribute('title');
+    }
+    catch (ex) {
+      plugin.match.setAttribute('title', 'Not a valid regular expression');
+      throw new Error("Invalid regular expression: " + ex.message);
+    }
+    
+    if (!plugin.resolve.value && !plugin.process.value) {
+      $$('.bespin').setAttribute('title', 'Either resolve or process or both must be implemented');
+      throw new Error('Either resolve or process or both must be implemented');
+    }
+  }
+  catch (ex) {
+    log(ex);
+    plugin.src.value = ex.toSource();
+    return;
+  }
   let o = {
     type: 'sandbox',
     ns: plugin.ns.value,

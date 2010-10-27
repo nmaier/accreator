@@ -12,3 +12,7 @@ textarea,
   width: 100%;
   height: 12em;    
 }
+
+*[title] {
+  background: transparent url(error.png) no-repeat right center;
+}
