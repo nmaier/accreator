@@ -44,7 +44,7 @@ function $$(query) document.querySelector(query);
 if (console) {
   function log() {
     if (console) {
-      console.log(Array.map(arguments, function(e) e.toString()).join('\n'))
+      console.log(Array.map(arguments, function(e) typeof(e) == 'object' ? e.toSource() : e.toString()).join('\n'))
     }
   }
 }
@@ -106,28 +106,46 @@ function onDrag(event) {
 }
 function onDrop(event) {
   event.preventDefault();
-  if (!event.dataTransfer
-    || !event.dataTransfer.files
-    || event.dataTransfer.files.length != 1
-  ) {
-    log("no or too many files in dnd");
+  if (!event.dataTransfer) {
     return;
   }
-  let file = event.dataTransfer.files[0];
-  log("dropped", file.name, file.fileName, file.type);
-  if (!/\.json$/i.test(event.dataTransfer.files[0].fileName)
-  ) {
-    log("not a json file");
+  if (event.dataTransfer.files && event.dataTransfer.files.length == 1) {
+    let file = event.dataTransfer.files[0];
+    log("dropped", file.name, file.fileName, file.type);
+    if (!/\.json$/i.test(event.dataTransfer.files[0].fileName)) {
+      log("not a json file");
+      return;
+    }
+    event.preventDefault();
+    fromPlugin(event.dataTransfer.files[0].getAsText('utf-8'));
     return;
   }
-
-  // always prevent default, else browser might load the json file
-  // if it fails to parse
-  event.preventDefault();
-
-  fromPlugin(event.dataTransfer.files[0].getAsText('utf-8'));
+  function loadData(type) {
+    if (event.dataTransfer.types.contains(type)) {
+      event.preventDefault();
+      fromPlugin(event.dataTransfer.getData(type));
+      return true;
+    }
+    return false;
+  }
+  [
+    'application/json',
+    'text/unicode',
+    'text/plain',
+  ].some(loadData);
 }
 
+/**
+ * "Copy" handler
+ */
+function onDragStart(event) {
+  log("dragstart");
+  let dt = event.dataTransfer;
+  dt.effectsAllowed = 'copy';
+  dt.dropEffect = 'copy';
+  dt.setData('text/plain', plugin.src.value);
+  dt.setData('application/json', plugin.src.value);
+}
 addEventListener('load', function() {
   removeEventListener('load', arguments.callee, true);
 
@@ -159,6 +177,7 @@ addEventListener('load', function() {
 
   with (document.documentElement) {
     addEventListener('dragenter', onDrag, true);
+    addEventListener('dragstart', onDragStart, true);
     addEventListener('dragover', onDrag, true);
     addEventListener('drop', onDrop, true);
   }
