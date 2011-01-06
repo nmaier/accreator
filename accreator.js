@@ -226,36 +226,39 @@ addEventListener('load', function() {
   log('load');
 
   // init bespin
-  let console = bespin.tiki.require('bespin:console').console;
+  let bconsole = bespin.tiki.require('bespin:console').console;
   let Range = bespin.tiki.require('rangeutils:utils/range');
 
-  jQuery('#tabs').tabs();
-  jQuery('#tabs').bind('tabsshow', function(event, ui) {
-    plugin.envresolve.dimensionsChanged();
-    plugin.envprocess.dimensionsChanged();
-    plugin.envsrc.dimensionsChanged();
-    log(ui.panel.id);
-  });
-  
   // Set up bookkeeping and bespin
   for each (let i in ['ns', 'author', 'prefix', 'match', 'generateName', 'omitReferrer', 'useOriginName', 'static']) {
     plugin[i] = $(i);
     plugin[i].addEventListener('change', onChange, true);
     plugin[i].addEventListener('keypress', onChange, true);
   }
-  for each (let i in ['resolve', 'process', 'src']) {
-    let e = $(i);
-    bespin.useBespin(e, BESPIN_OPTIONS).then(function (env) {
-      plugin[e.id] = env.editor;
-      plugin['env' + e.id] = env;
-      if (e.id != 'src') {
-        env.editor.textChanged.add(onChange);
-      }
-      try {
-        toPlugin();
-      }
-      catch (ex) {}
-    });
+  window.onBespinLoad = function() {
+    for each (let i in ['resolve', 'process', 'src']) {
+      let e = $(i);
+      bespin.useBespin(e, BESPIN_OPTIONS).then(function (env) {
+        plugin[e.id] = env.editor;
+        plugin['env' + e.id] = env;
+        if (e.id != 'src') {
+          env.editor.textChanged.add(onChange);
+        }
+        try {
+          toPlugin();
+        }
+        catch (ex) {}
+        setTimeout(function() {
+          jQuery("#tabs").tabs();
+          jQuery('#tabs').bind('tabsshow', function(event, ui) {
+            plugin.envresolve.dimensionsChanged();
+            plugin.envprocess.dimensionsChanged();
+            plugin.envsrc.dimensionsChanged();
+            log(ui.panel.id);
+          });
+        }, 0);
+      });
+    }
   }
   
   with (document.documentElement) {
